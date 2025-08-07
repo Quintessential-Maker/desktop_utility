@@ -25,6 +25,7 @@ dependencies:
   get_storage: ^2.1.1
   window_size: ^0.1.0
   intl: ^0.19.0
+  xml:
 
 
 dev_dependencies:

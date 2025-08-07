@@ -20,7 +20,7 @@ class XmlSignController extends GetxController {
     signedXml.value = '';
 
     try {
-      final response = await _xmlRemoteDataSource.signXml(xmlString);
+      final response = await _xmlRemoteDataSource.signXml(xmlString, '60000');
 
       print(response);
 

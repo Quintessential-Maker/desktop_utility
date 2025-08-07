@@ -19,7 +19,7 @@ class SplashController extends GetxController {
     final token = prefs.read(Preferences.AUTHORIZATION_TOKEN);
 
     if (token != null && !_isTokenExpired(token)) {
-      Get.offAllNamed(AppRoutes.xmlSignViewPage);
+      Get.offAllNamed(AppRoutes.home);
     } else {
       Get.offAllNamed(AppRoutes.login);
     }

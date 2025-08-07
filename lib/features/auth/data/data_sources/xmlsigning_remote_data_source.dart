@@ -11,9 +11,10 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class XmlSigningRemoteDataSource extends RemoteDataSourceBase {
 
-  Future<Response> signXml(String xmlString) async {
+  Future<Response> signXml(String xmlString, String port) async {
+
     return await post(
-      ApiEndpoints.signXml,
+      ApiEndpoints.signXml(port),
       data: xmlString,
     );
   }

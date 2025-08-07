@@ -85,7 +85,7 @@ class LoginController extends GetxController {
       await _authRemoteDataSource.setTokenToPreferences(apiResponse.token!);
 
       // ✅ Navigate to Home Page after successful verification
-      Get.offAllNamed(AppRoutes.xmlSignViewPage);
+      Get.offAllNamed(AppRoutes.xmlSignView);
 
     } on AppException catch (e) {
       CustomSnackbar.fail(e.message);

@@ -4,7 +4,8 @@ class ApiEnvironment {
   static String get baseUri => isProduction ? 'www.pmposhan.mp.gov.in' : '10.131.11.104';
 
   static String get baseUrl => 'https://$baseUri';
-  static String get baseUrlForSigning => 'http://localhost:60000'; //localhost:59596
+  // static String get baseUrlForSigning => 'http://localhost:60000'; //localhost:59596
+  static String baseUrlForSigning(String port) => 'http://localhost:$port';
 }
 
 class ApiPath {
@@ -22,7 +23,8 @@ class ApiEndpoints {
   static String get mealDiary => '${ApiEnvironment.baseUrl}/${ApiPath.mealService}/Diary';
 
   // XML Signing
-  static String get signXml => '${ApiEnvironment.baseUrlForSigning}/signxml';
+  // static String get signXml => '${ApiEnvironment.baseUrlForSigning}/signxml';
+  static String signXml(String port) => '${ApiEnvironment.baseUrlForSigning(port)}/signxml';
 
   // Static pages
   static String get privacyPolicy => '${ApiEnvironment.baseUrl}/PrivacyPolicy.aspx';
