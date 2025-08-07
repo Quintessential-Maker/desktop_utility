@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <book id="bk001">
+        <title>The Great Novel</title>
+        <author>Jane Doe</author>
+        <genre>Fiction</genre>
+        <publication_year>2023</publication_year>
+        <available>true</available>
+    </book>
+    <book id="bk002">
+        <title>XML Basics</title>
+        <author>John Smith</author>
+        <genre>Programming</genre>
+        <publication_year>2022</publication_year>
+        <available>false</available>
+        <note>Reserved by student.</note>
+    </book>
+    <magazine>
+        <title>Tech Weekly</title>
+        <issue>Vol. 10, No. 5</issue>
+        <publication_date>2024-07-28</publication_date>
+    </magazine>
+</library>
