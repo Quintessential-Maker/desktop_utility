@@ -1,6 +1,7 @@
 // lib/features/auth/presentation/controllers/login_controller.dart
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dsc_utility/core/constants/api_response.dart';
 import 'package:dsc_utility/core/constants/custom_snackbar.dart';
 import 'package:dsc_utility/core/constants/error_messages.dart';
@@ -10,8 +11,8 @@ import 'package:dsc_utility/core/utils/input_validator.dart';
 import 'package:dsc_utility/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:dsc_utility/helper/custom_loader.dart';
 import 'package:dsc_utility/helper/custom_method.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginController extends GetxController {
   final mobileController = TextEditingController(text: '8962875268');//8103685687

@@ -26,14 +26,12 @@ class HomeViewPage extends StatelessWidget {
     final secondaryColor = theme.colorScheme.secondary;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Socket XML Tool')),
+      appBar: AppBar(title: Text('header_name'.tr)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// 🔘 Top Control Section
-            /// 🔘 Top Control Section (Better Grouping + Status Label)
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               elevation: 5,
@@ -52,7 +50,7 @@ class HomeViewPage extends StatelessWidget {
                         ElevatedButton.icon(
                           onPressed: controller.startSocket,
                           icon: Icon(Icons.play_arrow),
-                          label: Text('Start'),
+                          label: Text('start'.tr),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: theme.colorScheme.primary,
                             foregroundColor: Colors.white,
@@ -62,7 +60,7 @@ class HomeViewPage extends StatelessWidget {
                         ElevatedButton.icon(
                           onPressed: controller.stopSocket,
                           icon: Icon(Icons.stop),
-                          label: Text('Stop'),
+                          label: Text('stop'.tr),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: theme.colorScheme.error,
                             foregroundColor: Colors.white,
@@ -72,25 +70,30 @@ class HomeViewPage extends StatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text("Port:", style: theme.textTheme.titleMedium),
+                            Text('${'port'.tr}:', style: theme.textTheme.titleMedium),
                             SizedBox(width: 8),
                             SizedBox(
                               width: 100,
-                              child: TextFormField(
+                              child: Obx(() => TextFormField(
                                 controller: controller.portController,
                                 decoration: InputDecoration(
                                   isDense: true,
                                   border: OutlineInputBorder(),
                                   contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                                 ),
-                              ),
+                                enabled: controller.isRunning.value,
+                                style: theme.textTheme.titleMedium,
+                              ),)
                             ),
                           ],
                         ),
                         ElevatedButton.icon(
+                          // onPressed: controller.isRunning.value
+                          //     ? () => controller.testSocket(context)
+                          //     : null,
                           onPressed: () => controller.testSocket(context),
                           icon: Icon(Icons.bolt),
-                          label: Text('Test'),
+                          label: Text('test'.tr),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: theme.colorScheme.secondary,
                             foregroundColor: Colors.white,
@@ -125,59 +128,15 @@ class HomeViewPage extends StatelessWidget {
               ),
             ),
 
-            /*/// 📝 XML Input Box
-            Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 3,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      maxLines: 5,
-                      onChanged: (val) => controller.xmlInput.value = val,
-                      decoration: InputDecoration(
-                        labelText: 'Paste XML Input',
-                        border: OutlineInputBorder(),
-                        hintText: '<xml>...</xml>',
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    Obx(() => AnimatedOpacity(
-                      opacity: controller.xmlInput.value.trim().isEmpty ? 0.5 : 1,
-                      duration: Duration(milliseconds: 300),
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-
-                          controller.xmlInput.value.trim().isEmpty
-                              ? null
-                              : controller.signXml(context);
-
-                        },
-                        icon: Icon(Icons.send),
-                        label: Text('Send'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          foregroundColor: Colors.white,
-                        ),
-                      ),
-                    )),
-                  ],
-                ),
-              ),
-            ),*/
-
-            // SizedBox(height: 10),
-
             /// 📊 History Table
-            Text('Request History', style: theme.textTheme.headlineSmall),
+            Text('requestHistory'.tr, style: theme.textTheme.headlineSmall),
             SizedBox(height: 12),
             Obx(() {
               if (controller.historyList.isEmpty) {
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'No requests sent yet.',
+                    'noRequestSentYet'.tr,
                     style: theme.textTheme.bodyMedium,
                   ),
                 );
@@ -199,7 +158,7 @@ class HomeViewPage extends StatelessWidget {
                       columnSpacing: 10,
                       columns: [
                         DataColumn(
-                          label: Center(child: Text('Request TS', textAlign: TextAlign.center)),
+                          label: Center(child: Text('reqTS'.tr, textAlign: TextAlign.center)),
                         ),
                         DataColumn(
                           label: Center(child: Text('URL', textAlign: TextAlign.center)),

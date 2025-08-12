@@ -42,6 +42,7 @@ class HomeViewController extends GetxController {
   }
 
   void testSocket(BuildContext context) {
+    if(isRunning.value){
       showDialog(
         context: context,
         barrierDismissible: false, // prevents background interaction
@@ -110,6 +111,10 @@ class HomeViewController extends GetxController {
           );
         },
       );
+    }else{
+      CustomSnackbar.oops('Start service first');
+    }
+
     }
 
   Future<void> signXml(BuildContext context) async {

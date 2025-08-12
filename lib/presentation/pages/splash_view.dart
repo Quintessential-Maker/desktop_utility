@@ -1,4 +1,6 @@
+import 'package:dsc_utility/helper/custom_method.dart';
 import 'package:dsc_utility/helper/dance_image.dart';
+import 'package:dsc_utility/helper/resource/colors.dart';
 import 'package:dsc_utility/presentation/controller/splash_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,10 +45,9 @@ class _SplashViewState extends State<SplashView>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: hexToColor(CustomColors.whiteColor),
       body: Center(
         child: FadeTransition(
           opacity: _fadeIn,
@@ -56,8 +57,8 @@ class _SplashViewState extends State<SplashView>
               HoverDanceImage(),
               const SizedBox(height: 30),
               Text(
-                'MP PM Poshan Shakti Nirman',
-                style: theme.textTheme.headlineMedium?.copyWith(
+                'app_name'.tr,
+                style: themeVariable.subTitleStyle.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),

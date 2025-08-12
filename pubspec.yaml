@@ -25,6 +25,7 @@ dependencies:
   get_storage: ^2.1.1
   window_size: ^0.1.0
   intl: ^0.19.0
+  bitsdojo_window: ^0.1.5
   xml:
 
 
@@ -45,5 +46,4 @@ flutter:
     - assets/
     - assets/images/
     - assets/xml/
-    - assets/windows_tools/
 

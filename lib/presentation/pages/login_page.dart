@@ -20,7 +20,7 @@ class DesktopLoginPage extends StatelessWidget {
       init: LoginController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: const Color(0xFFF5F7FA),
+          backgroundColor: hexToColor(CustomColors.whiteColor),
           body: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 900),
@@ -42,26 +42,39 @@ class DesktopLoginPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
+                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Center(
+                             /* Center(
                                 child: Text(
-                                  'Madhya Pradesh PM Poshan Shakti Nirman Yojana',
+                                  'app_name'.tr,
                                   textAlign: TextAlign.center,
-                                  style: themeVariable.titleStyle.copyWith(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: hexToColor(CustomColors.dangerColorBg),
-                                  ),
+                                  style: themeVariable.titleStyle,
                                 ),
+                              ),*/
+
+                              IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios_new,
+                                  color: hexToColor(CustomColors.primaryColor),
+                                ),
+                                onPressed: () {
+                                  // Get.delete<LoginController>();
+                                  // Get.put(LoginController());
+
+                                  Get.delete<LoginController>(force: true); // purana controller turant hatado
+                                  Get.off(() => GetBuilder<LoginController>(
+                                    init: LoginController(), // naya controller
+                                    builder: (_) => const DesktopLoginPage(),
+                                  ));
+
+                                },
                               ),
+
                               const SizedBox(height: 20),
-                              Text('Welcome Back! 👋', style: themeVariable.titleStyle),
-                              const SizedBox(height: 8),
-                              Text('Please login to your account', style: themeVariable.subTitleStyle),
+                              Text('pleaseLogin'.tr, style: themeVariable.titleStyle),
                               const SizedBox(height: 24),
 
                               // 👉 Mobile Number
@@ -69,7 +82,7 @@ class DesktopLoginPage extends StatelessWidget {
                                 controller: controller.mobileController,
                                 keyboardType: TextInputType.phone,
                                 decoration: InputDecoration(
-                                  labelText: 'Mobile Number',
+                                  labelText: 'mobileNumber'.tr,
                                   prefixIcon: const Icon(Icons.phone),
                                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                                 ),
@@ -116,8 +129,8 @@ class DesktopLoginPage extends StatelessWidget {
                                         : null,
                                     child: Text(
                                       controller.canResend
-                                          ? 'Resend OTP'
-                                          : 'Resend OTP in ${controller.resendSeconds}s',
+                                          ? 'resendOTP'.tr
+                                          : '${'resendOTPIn'.tr} ${controller.resendSeconds}s',
                                       style: themeVariable.subTitleStyle.copyWith(
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -140,7 +153,7 @@ class DesktopLoginPage extends StatelessWidget {
                                   onPressed: controller.otpSent
                                       ? () => controller.verifyOtpAndLogin(context)
                                       : () => controller.requestOTP(context),
-                                  child: Text(controller.otpSent ? 'Verify OTP' : 'Send OTP'),
+                                  child: Text(controller.otpSent ? 'verifyOTP'.tr : 'sendOTP'.tr),
                                 ),
                               ),
                             ],
@@ -152,7 +165,7 @@ class DesktopLoginPage extends StatelessWidget {
                 ],
               ),
             ),
-          ),
+          ), 
         );
       },
     );
