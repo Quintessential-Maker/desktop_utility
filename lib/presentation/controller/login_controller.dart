@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dsc_utility/core/constants/api_response.dart';
-import 'package:dsc_utility/core/constants/custom_snackbar.dart';
+import 'package:dsc_utility/helper/custom_snackbar.dart';
 import 'package:dsc_utility/core/constants/error_messages.dart';
 import 'package:dsc_utility/core/error/app_exception.dart';
 import 'package:dsc_utility/core/routes/app_routes.dart';
@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
-  final mobileController = TextEditingController(text: '8962875268');//8103685687
+  final mobileController = TextEditingController(text: '8103685687');//8962875268
   final otpController = TextEditingController();
 
   final _authRemoteDataSource = AuthRemoteDataSource();
@@ -85,8 +85,10 @@ class LoginController extends GetxController {
 
       await _authRemoteDataSource.setTokenToPreferences(apiResponse.token!);
 
-      // ✅ Navigate to Home Page after successful verification
-      Get.offAllNamed(AppRoutes.xmlSignView);
+      Future.delayed(Duration(milliseconds: 300), () {
+        Get.offAllNamed(AppRoutes.home);
+      });
+
 
     } on AppException catch (e) {
       CustomSnackbar.fail(e.message);

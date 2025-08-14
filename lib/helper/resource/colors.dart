@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class CustomColors {
   static String backgroundColorPallete = '#FFEEAD';
+  static String tealColorBg = '#008080';
   static String primaryDarkColor = '#7A4069';
   static String primaryColor = '#513252';
   static String successColorBg = '#008000';

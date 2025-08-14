@@ -1,7 +1,11 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:dsc_utility/core/routes/app_routes.dart';
 import 'package:dsc_utility/helper/resource/colors.dart';
+import 'package:dsc_utility/presentation/widgets/controller/status_controller.dart';
+import 'package:dsc_utility/presentation/widgets/custom_dialog_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -46,4 +50,47 @@ Future<String> printAppVersion() async {
   print("🛠️ Build Number: $buildNumber");
   return version;
 }
+
+void logout() {
+  showDialog(
+    context: Get.context!,
+    barrierDismissible: false,
+    builder: (BuildContext context) => CustomDialog(
+      title: 'alert'.tr,
+      pButtonText: 'yes'.tr,
+      pButtonOnTap: () {
+        // If the user confirms logout, clear GetStorage
+        GetStorage().erase();
+        Get.put(StatusController()).setStatus('notStartedYet'.tr);
+        // Navigate to the HomeScreen
+        Get.offAllNamed(AppRoutes.splash);
+      },
+      nButtonOnTap: () => Get.back(),
+      description: 'doYouWantToLogout'.tr,
+      nButtonText: 'no'.tr,
+    ),
+  );
+}
+
+Color getStatusColor(String status) {
+  switch (status.toLowerCase()) {
+    case 'started and idle':
+    case 'available':
+      return hexToColor(CustomColors.successColorBg);
+    case 'idle':
+      return hexToColor(CustomColors.warningColorBg);
+    case 'busy':
+      return hexToColor(CustomColors.infoColorBg);
+    case 'stopped':
+      return hexToColor(CustomColors.dangerColorBg);
+    case 'completed':
+      return hexToColor(CustomColors.tealColorBg);
+    case 'oops':
+    case 'error':
+      return hexToColor(CustomColors.dangerColorBg);
+    default:
+      return hexToColor(CustomColors.lightGrey);
+  }
+}
+
 

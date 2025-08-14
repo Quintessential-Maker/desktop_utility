@@ -18,16 +18,16 @@ class AppRoutes {
   static const String splash = '/splash';
   static const String chooseCertificate = '/chooseCertificate';
   static const String certificateList = '/certificateList';
-  static const String xmlSignView = '/xmlSignView';
+  // static const String xmlSignView = '/xmlSignView';
 }
 
 class AppPages {
   static final routes = [
-    GetPage(name: AppRoutes.login, page: () => const DesktopLoginPage(),binding: BindingsBuilder(() { Get.put(LoginController()); }),),
+    GetPage(name: AppRoutes.login, page: () => LoginPage(),binding: BindingsBuilder(() { Get.put(LoginController()); }),),
     GetPage(name: AppRoutes.home, page: () =>  HomeViewPage(),binding: BindingsBuilder(() { Get.put(HomeViewController()); }),),
     GetPage(name: AppRoutes.certificateList, page: () => const CertificateListPage(),binding: BindingsBuilder(() { Get.put(CertificateListController()); }),),
     GetPage(name: AppRoutes.chooseCertificate, page: () => ChooseCertificatePage(),binding: BindingsBuilder(() { Get.put(ChooseCertificateController()); }),),
-    GetPage(name: AppRoutes.xmlSignView, page: () => XmlSignViewPage(),binding: BindingsBuilder(() { Get.put(XmlSignController()); }),),
+    // GetPage(name: AppRoutes.xmlSignView, page: () => XmlSignViewPage(),binding: BindingsBuilder(() { Get.put(XmlSignController()); }),),
     GetPage(name: AppRoutes.splash, page: () => const SplashView(),binding: BindingsBuilder(() { Get.put(SplashController()); }),),
   ];
 }

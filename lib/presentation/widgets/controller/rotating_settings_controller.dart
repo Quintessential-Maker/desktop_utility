@@ -1,3 +1,7 @@
+import 'package:dsc_utility/helper/custom_snackbar.dart';
+import 'package:dsc_utility/core/utils/translation/languages.dart';
+import 'package:dsc_utility/helper/custom_method.dart';
+import 'package:dsc_utility/helper/resource/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,7 +40,7 @@ class RotatingSettingsController extends GetxController
     final Offset offset = renderBox.localToGlobal(Offset.zero);
     final Size size = renderBox.size;
 
-    await showMenu(
+    final result = await showMenu(
       context: Get.context!,
       position: RelativeRect.fromLTRB(
         offset.dx,
@@ -44,12 +48,89 @@ class RotatingSettingsController extends GetxController
         offset.dx + size.width,
         offset.dy,
       ),
-      items: const [
-        PopupMenuItem(value: 'profile', child: Text('Profile')),
-        PopupMenuItem(value: 'settings', child: Text('Settings')),
-        PopupMenuItem(value: 'logout', child: Text('Logout')),
+      items: [
+        PopupMenuItem(
+          value: 'language',
+          child: Row(
+            children: [
+              Icon(Icons.language, size: 20, color: hexToColor(CustomColors.warningColorBg),),
+              const SizedBox(width: 10),
+              Text('language'.tr, style: TextStyle(color: hexToColor(CustomColors.warningColorBg)),),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'profile',
+          child: Row(
+            children: [
+              Icon(Icons.person, size: 20),
+              const SizedBox(width: 10),
+              Text('profile'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'settings',
+          child: Row(
+            children: [
+              Icon(Icons.settings, size: 20),
+              const SizedBox(width: 10),
+              Text('settings'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'logout',
+          child: Row(
+            children: [
+              Icon(Icons.logout, size: 20, color: hexToColor(CustomColors.dangerColorBg),),
+              const SizedBox(width: 10),
+              Text('logout'.tr, style: TextStyle(color: hexToColor(CustomColors.dangerColorBg)),),
+            ],
+          ),
+        ),
       ],
     );
+
+// Handle selected value
+    if (result != null) {
+      switch (result) {
+        case 'language':
+          print(Get.currentRoute);
+          // Get.toNamed(RouteNames.homePage);
+          Get.defaultDialog(
+            title: 'changeLanguage'.tr,
+            content: Column(
+              children: languages.map((lang) {
+                return ListTile(
+                  title: Text(
+                    lang.language,
+                    style: themeVariable.titleStyle,
+                  ),
+                  onTap: () {
+                    changeLanguage(lang.symbol);
+                    Get.back(); // close dialog
+                    CustomSnackbar.success(
+                      'languageChanged'.tr,
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+          );
+          break;
+        case 'profile':
+          print("Profile clicked");
+          break;
+        case 'settings':
+          print("Settings clicked");
+          break;
+        case 'logout':
+          logout();
+          break;
+      }
+    }
+
 
     animationController.reverse();
     menuOpen.value = false;

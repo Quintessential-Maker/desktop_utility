@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 
-class DesktopLoginPage extends StatelessWidget {
-  const DesktopLoginPage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,25 +54,22 @@ class DesktopLoginPage extends StatelessWidget {
                                   style: themeVariable.titleStyle,
                                 ),
                               ),*/
-
-                              IconButton(
+                              /*IconButton(
                                 icon: Icon(
                                   Icons.arrow_back_ios_new,
                                   color: hexToColor(CustomColors.primaryColor),
                                 ),
                                 onPressed: () {
-                                  // Get.delete<LoginController>();
-                                  // Get.put(LoginController());
-
-                                  Get.delete<LoginController>(force: true); // purana controller turant hatado
-                                  Get.off(() => GetBuilder<LoginController>(
-                                    init: LoginController(), // naya controller
-                                    builder: (_) => const DesktopLoginPage(),
-                                  ));
-
+                                  */
+                              /*Get.off(() => const DesktopLoginPage());
+                                  Get.delete<LoginController>(force: true);*/
+                              /*
+                                  Get.off(() => const LoginPage());
+                                  Future.delayed(Duration(milliseconds: 300), () {
+                                    Get.delete<LoginController>(force: true);
+                                  });
                                 },
-                              ),
-
+                              ),*/
                               const SizedBox(height: 20),
                               Text('pleaseLogin'.tr, style: themeVariable.titleStyle),
                               const SizedBox(height: 24),
@@ -165,7 +162,7 @@ class DesktopLoginPage extends StatelessWidget {
                 ],
               ),
             ),
-          ), 
+          ),
         );
       },
     );
