@@ -5,9 +5,12 @@ import 'package:dsc_utility/helper/resource/colors.dart';
 import 'package:dsc_utility/presentation/widgets/controller/status_controller.dart';
 import 'package:dsc_utility/presentation/widgets/custom_dialog_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:xml/xml.dart';
 
 
 final prefs = GetStorage();
@@ -24,6 +27,8 @@ final List<Color> availableColors = [
   // hexToColor(CustomColors.darkColorBg),
 ];
 final CustomThemeBase themeVariable = getTheme(0);
+
+DateFormat dateFormat = DateFormat('EEE, dd MMM yyyy\n- hh:mm:ss a');
 
 Color hexToColor(String hexColor, [double opacity = 1.0]) {
   assert(RegExp(r'^#([0-9a-fA-F]{6})|([0-9a-fA-F]{8})$').hasMatch(hexColor));
@@ -92,5 +97,57 @@ Color getStatusColor(String status) {
       return hexToColor(CustomColors.lightGrey);
   }
 }
+
+String formatXml(String xmlString) {
+  try {
+    final document = XmlDocument.parse(xmlString);
+    return document.toXmlString(pretty: true, indent: '  '); // इंडेंट के साथ
+  } catch (e) {
+    return xmlString; // अगर parse fail हुआ तो raw text दिखाओ
+  }
+}
+
+void showSignedXmlDialog(BuildContext context, String signedXml) {
+  showDialog(
+    context: context,
+    builder: (_) {
+      return AlertDialog(
+        titlePadding: EdgeInsets.only(left: 16, right: 8, top: 12, bottom: 0),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Signed XML"),
+            IconButton(
+              icon: Icon(Icons.copy, size: 20),
+              tooltip: "Copy",
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: signedXml));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Copied to clipboard")),
+                );
+              },
+            ),
+          ],
+        ),
+        content: Container(
+          width: double.maxFinite,
+          child: SingleChildScrollView(
+            child: Text(
+              formatXml(signedXml),
+              style: TextStyle(fontFamily: 'monospace'),
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Close"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
 

@@ -41,7 +41,7 @@ class LoginController extends GetxController {
     final message = InputValidator.validateOtp(otp);
 
     if (message != null) {
-      CustomSnackbar.warning(message);
+      CustomSnackbar.warning(context, message);
       return;
     }
 
@@ -72,14 +72,14 @@ class LoginController extends GetxController {
       print(apiResponse.message);
 
       if (!apiResponse.isSuccess) {
-        CustomSnackbar.fail(apiResponse.message);
+        CustomSnackbar.fail(context, apiResponse.message);
         return;
       }
 
-      CustomSnackbar.success(apiResponse.message);
+      CustomSnackbar.success(context, apiResponse.message);
       final token = apiResponse.token;
       if (token == null || token.isEmpty) {
-        CustomSnackbar.oops("Token not found in response");
+        CustomSnackbar.oops(context, 'tokenNotFound'.tr);
         return;
       }
 
@@ -91,9 +91,9 @@ class LoginController extends GetxController {
 
 
     } on AppException catch (e) {
-      CustomSnackbar.fail(e.message);
+      CustomSnackbar.fail(context, e.message);
     } catch (e) {
-      CustomSnackbar.fail(e.toString());
+      CustomSnackbar.fail(context, e.toString());
       // CustomSnackbar.fail(ErrorMessages.unexpected);
       debugPrint('OTP verify error: $e');
     } finally {
@@ -110,7 +110,7 @@ class LoginController extends GetxController {
     }
 
     if (validationMessage != null) {
-      CustomSnackbar.warning(validationMessage);
+      CustomSnackbar.warning(context, validationMessage);
       return;
     }
 
@@ -143,19 +143,19 @@ class LoginController extends GetxController {
       print(apiResponse.message);
 
       if (!apiResponse.isSuccess) {
-        CustomSnackbar.fail(apiResponse.message);
+        CustomSnackbar.fail(context, apiResponse.message);
       }else{
         if (!otpSent) otpSent = true;
         update();
 
         startResendTimer();
-        CustomSnackbar.success(apiResponse.message);
+        CustomSnackbar.success(context, apiResponse.message);
       }
 
     } on AppException catch (e) {
-      CustomSnackbar.fail(e.message);
+      CustomSnackbar.fail(context, e.message);
     } catch (e) {
-      CustomSnackbar.fail(e.toString());
+      CustomSnackbar.fail(context, e.toString());
       // CustomSnackbar.fail(ErrorMessages.unexpected);
       debugPrint('OTP request error: $e');
     } finally {

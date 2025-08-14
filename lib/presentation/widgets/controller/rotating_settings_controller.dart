@@ -1,6 +1,6 @@
-import 'package:dsc_utility/helper/custom_snackbar.dart';
 import 'package:dsc_utility/core/utils/translation/languages.dart';
 import 'package:dsc_utility/helper/custom_method.dart';
+import 'package:dsc_utility/helper/custom_snackbar.dart';
 import 'package:dsc_utility/helper/resource/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -110,8 +110,7 @@ class RotatingSettingsController extends GetxController
                   onTap: () {
                     changeLanguage(lang.symbol);
                     Get.back(); // close dialog
-                    CustomSnackbar.success(
-                      'languageChanged'.tr,
+                    CustomSnackbar.success(context, 'languageChanged'.tr,
                     );
                   },
                 );

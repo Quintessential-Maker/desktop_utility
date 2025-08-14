@@ -1,10 +1,13 @@
+import 'package:dsc_utility/core/constants/api_constants.dart';
 import 'package:dsc_utility/helper/custom_snackbar.dart';
 import 'package:dsc_utility/core/error/app_exception.dart';
 import 'package:dsc_utility/features/auth/data/data_sources/xmlsigning_remote_data_source.dart';
 import 'package:dsc_utility/helper/custom_loader.dart';
+import 'package:dsc_utility/helper/custom_method.dart';
 import 'package:dsc_utility/presentation/widgets/controller/status_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class HomeViewController extends GetxController {
   var isRunning = false.obs;
@@ -14,7 +17,7 @@ class HomeViewController extends GetxController {
   var port = '60000'.obs;
   final statusController = Get.put(StatusController());
   var historyList = <Map<String, String>>[].obs;
-final xmlInputController = TextEditingController(text: '<?xml version="1.0" encoding="UTF-8"?> <library> <book id="bk101"> <title>The Art of War</title> <author>Sun Tzu</author> <genre>Military Strategy</genre> <publication_year>500 BC</publication_year> <price>12.99</price> </book> <book id="bk102"> <title>Pride and Prejudice</title> <author>Jane Austen</author> <genre>Romance</genre> <publication_year>1813</publication_year> <price>9.50</price> </book> <magazine id="mg201"> <title>National Geographic</title> <issue>July 2025</issue> <publisher>National Geographic Society</publisher> </magazine> </library>');
+  final xmlInputController = TextEditingController();
   final portController = TextEditingController();
 
   var signedXml = ''.obs;
@@ -25,6 +28,7 @@ final xmlInputController = TextEditingController(text: '<?xml version="1.0" enco
   void onInit() {
     super.onInit();
     portController.text = port.value;
+    xmlInputController.text = formatXml('<?xml version="1.0" encoding="UTF-8"?> <library> <book id="bk101"> <title>The Art of War</title> <author>Sun Tzu</author> <genre>Military Strategy</genre> <publication_year>500 BC</publication_year> <price>12.99</price> </book> <book id="bk102"> <title>Pride and Prejudice</title> <author>Jane Austen</author> <genre>Romance</genre> <publication_year>1813</publication_year> <price>9.50</price> </book> <magazine id="mg201"> <title>National Geographic</title> <issue>July 2025</issue> <publisher>National Geographic Society</publisher> </magazine> </library>');
     portController.addListener(() {
       port.value = portController.text;
     });
@@ -76,17 +80,11 @@ final xmlInputController = TextEditingController(text: '<?xml version="1.0" enco
       isTestButtonClicked.value = true;
       // _showTestDialog(context);
     } else {
-      // CustomSnackbar.oops('startServiceFirst'.tr);
-      CustomSnackbarOverlay.show(
-        context,
-        title: "Oops",
-        message: "Start service first",
-        bgColor: Colors.orange,
-        icon: Icons.error_outline,
-      );
+      CustomSnackbar.oops(context, 'startServiceFirst'.tr);
     }
   }
 
+/*
   void _showTestDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -155,6 +153,7 @@ final xmlInputController = TextEditingController(text: '<?xml version="1.0" enco
       },
     );
   }
+*/
 
   Future<void> signXml(BuildContext context) async {
     final input = xmlInputController.text.trim();
@@ -162,25 +161,13 @@ final xmlInputController = TextEditingController(text: '<?xml version="1.0" enco
     final requestTime = DateTime.now().toIso8601String();
 
     if (input.isEmpty) {
-      CustomSnackbar.fail('enterXmlMsg'.tr);
-      _addHistory(
-        reqTS: requestTime,
-        url: 'N/A',
-        authToken: 'N/A',
-        repliedTS: DateTime.now().toIso8601String(),
-        statusCode: 'Input Missing',
-      );
+      CustomSnackbar.fail(context, 'enterXmlMsg'.tr);
       return;
     }
-    if (!input.startsWith('<') || !input.endsWith('>') || !input.contains('</')) {
-      CustomSnackbar.fail('invalidXml'.tr);
-      _addHistory(
-        reqTS: requestTime,
-        url: 'N/A',
-        authToken: 'N/A',
-        repliedTS: DateTime.now().toIso8601String(),
-        statusCode: 'Invalid XML',
-      );
+
+    if (!input.startsWith('<') || !input.endsWith('>') ||
+        !input.contains('</')) {
+      CustomSnackbar.fail(context, 'invalidXml'.tr);
       return;
     }
 
@@ -198,19 +185,20 @@ final xmlInputController = TextEditingController(text: '<?xml version="1.0" enco
 
       _addHistory(
         reqTS: requestTime,
-        url: 'http://localhost:$port/signxml',
-        authToken: 'N/A', // अगर token हो तो यहां डालना
+        url: ApiEndpoints.signXml(port),
+        authToken: 'N/A',
+        // अगर token हो तो यहां डालना
         repliedTS: DateTime.now().toIso8601String(),
         statusCode: '${response.statusCode}',
       );
 
-      CustomSnackbar.success('xmlSigned'.tr);
+      CustomSnackbar.success(context, 'xmlSigned'.tr);
       // Navigator.of(context).pop();
     } on AppException catch (e) {
       setOops(e.message);
       _addHistory(
         reqTS: requestTime,
-        url: 'http://localhost:$port/signxml',
+        url: ApiEndpoints.signXml(port),
         authToken: 'N/A',
         repliedTS: DateTime.now().toIso8601String(),
         statusCode: 'Oops:\n${e.message}',
@@ -219,7 +207,7 @@ final xmlInputController = TextEditingController(text: '<?xml version="1.0" enco
       setOops(e.toString());
       _addHistory(
         reqTS: requestTime,
-        url: 'http://localhost:$port/signxml',
+        url: ApiEndpoints.signXml(port),
         authToken: 'N/A',
         repliedTS: DateTime.now().toIso8601String(),
         statusCode: 'Error:\n$e',
@@ -236,13 +224,20 @@ final xmlInputController = TextEditingController(text: '<?xml version="1.0" enco
     required String repliedTS,
     required String statusCode,
   }) {
+    print(reqTS);
+
+    // Format: Thursday, 14 Aug 2025 - 02:51:32 PM
+    String formattedReqTS = dateFormat.format(DateTime.parse(reqTS));
+
+    // Same for repliedTS if needed
+    String formattedRepliedTS = dateFormat.format(DateTime.parse(repliedTS));
+
     historyList.add({
-      'reqTS': reqTS,
+      'reqTS': formattedReqTS,
       'url': url,
       'authToken': authToken,
-      'repliedTS': repliedTS,
+      'repliedTS': formattedRepliedTS,
       'statusCode': statusCode,
     });
   }
-
 }

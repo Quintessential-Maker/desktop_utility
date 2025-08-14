@@ -53,6 +53,8 @@ final Map<String, String> enUS = {
   "no": "No",
   "doYouWantToLogout": "Do you want to logout?",
   "alert": "Alert!",
+  "tokenNotFound": "Token not found in response",
+  "signedXMLResponse": "Signed XML Response",
 };
 
 final Map<String, String> hi = {
@@ -103,4 +105,6 @@ final Map<String, String> hi = {
   "no": "नहीं",
   "doYouWantToLogout": "क्या आप लॉग आउट करना चाहते हैं ?",
   "alert": "चेतावनी!",
+  "tokenNotFound": "प्रतिक्रिया में टोकन नहीं मिला",
+  "signedXMLResponse": "हस्ताक्षरित XML प्रतिक्रिया",
 };

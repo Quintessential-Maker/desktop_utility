@@ -25,13 +25,13 @@ class XmlSignController extends GetxController {
       print(response);
 
       signedXml.value = response.data;
-      CustomSnackbar.success('XML signed successfully!');
+      CustomSnackbar.success(context, 'xmlSigned'.tr);
     } on AppException catch (e) {
       error.value = e.message;
-      CustomSnackbar.fail('Failed: ${e.message}');
+      CustomSnackbar.fail(context, 'Failed: ${e.message}');
     } catch (e) {
       error.value = 'Unexpected error: $e';
-      CustomSnackbar.fail('Error: $e');
+      CustomSnackbar.fail(context, 'Error: $e');
     } finally {
       CustomLoader.hide(context);
     }
